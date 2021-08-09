@@ -76,5 +76,28 @@ namespace WeatherIs.OpenWeatherMapApi.Tests
             Assert.ThrowsAsync<HttpRequestException>(async () =>
                 await _client.GetByZipCodeAsync(75014560, new RegionInfo("fr")));
         }
+
+        [Test]
+        public async Task WithinARectangle()
+        {
+            var city = await _client.GetWithinARectangleAsync(12, 32, 15, 37, 10);
+            Assert.IsNotNull(city);
+
+            Assert.ThrowsAsync<HttpRequestException>(async () =>
+                await _client.GetWithinARectangleAsync(987, 465, 65, 645, 4));
+        }
+        
+        [Test]
+        public async Task WithinACircle()
+        {
+            var city = await _client.GetWithinACircleAsync(12, 32, 15);
+            Assert.IsNotNull(city);
+
+            Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () =>
+                await _client.GetWithinACircleAsync(55, 37, 65));
+            
+            Assert.ThrowsAsync<HttpRequestException>(async () =>
+                await _client.GetWithinACircleAsync(874, 211));
+        }
     }
 }
