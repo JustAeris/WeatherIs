@@ -17,9 +17,6 @@ namespace WeatherIs.OpenWeatherMapApi.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            if (!File.Exists("appsettings.json"))
-                throw new FileNotFoundException("Settings file has not been found", "appsettings.json");
-
             var json = JObject.Parse(File.ReadAllText("appsettings.json"));
 
             _apiKey = (string) json["OpenWeatherMapApiKey"];
