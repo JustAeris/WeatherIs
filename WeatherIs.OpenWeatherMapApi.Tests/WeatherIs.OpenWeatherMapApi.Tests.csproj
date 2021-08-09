@@ -13,4 +13,15 @@
         <PackageReference Include="coverlet.collector" Version="3.0.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\WeatherIs.OpenWeatherMapApi\WeatherIs.OpenWeatherMapApi.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="appsettings.json" />
+      <Content Include="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>
