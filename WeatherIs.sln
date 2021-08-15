@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherIs.OpenWeatherMapApi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherIs.OpenWeatherMapApi.Tests", "WeatherIs.OpenWeatherMapApi.Tests\WeatherIs.OpenWeatherMapApi.Tests.csproj", "{E9F358A6-2E32-46F7-830B-0D54874B2F3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherIs.IpApi", "WeatherIs.IpApi\WeatherIs.IpApi.csproj", "{8A273E49-A9B2-4520-B0E3-1AAA16532163}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherIs.IpApi.Tests", "WeatherIs.IpApi.Tests\WeatherIs.IpApi.Tests.csproj", "{16B48A91-EA80-4D2F-966F-86199002E17E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{E9F358A6-2E32-46F7-830B-0D54874B2F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9F358A6-2E32-46F7-830B-0D54874B2F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9F358A6-2E32-46F7-830B-0D54874B2F3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A273E49-A9B2-4520-B0E3-1AAA16532163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A273E49-A9B2-4520-B0E3-1AAA16532163}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A273E49-A9B2-4520-B0E3-1AAA16532163}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A273E49-A9B2-4520-B0E3-1AAA16532163}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16B48A91-EA80-4D2F-966F-86199002E17E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16B48A91-EA80-4D2F-966F-86199002E17E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16B48A91-EA80-4D2F-966F-86199002E17E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16B48A91-EA80-4D2F-966F-86199002E17E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
