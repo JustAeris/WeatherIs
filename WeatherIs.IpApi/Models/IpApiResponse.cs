@@ -2,6 +2,9 @@
 
 namespace WeatherIs.IpApi.Models
 {
+    /// <summary>
+    /// The response given by the API.
+    /// </summary>
     public class IpApiResponse
     {
         [JsonProperty("query")]
