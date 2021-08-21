@@ -43,5 +43,17 @@ namespace WeatherIs.IpApi.Tests
         {
             Assert.ThrowsAsync<ArgumentException>(async () => await _client.GetIpGeolocationAsync(ip));
         }
+
+        [Test]
+        [TestCase("teamcity.aeris.dev")]
+        [TestCase("2.2.2.2")]
+        public async Task GetFullIpGeolocation(string ip)
+        {
+            var geolocation = await _client.GetIpGeolocationAsync(ip, 66846719);
+
+            Assert.IsNotNull(geolocation);
+
+            Assert.AreEqual(geolocation.Status, "success");
+        }
     }
 }
