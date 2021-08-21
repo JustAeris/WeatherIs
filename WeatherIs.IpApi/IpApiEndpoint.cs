@@ -38,7 +38,7 @@ namespace WeatherIs.IpApi
         /// This methods return the geolocation of an IP using
         /// the free <a href="https://ip-api.com">ip-api.com</a> endpoint
         /// </summary>
-        /// <param name="ip">The IP to get the geolocation of.</param>
+        /// <param name="ip">The IP to get the geolocation of. Can be IPv4/IPv6 or a domain name.</param>
         /// <returns>A response containing all of the basic elements.</returns>
         /// <exception cref="HttpRequestException">You made over 45 request in 1 minute (<see cref="HttpStatusCode.TooManyRequests"/>).</exception>
         /// <exception cref="ArgumentException">The given IP is in correct or not an IP.</exception>
