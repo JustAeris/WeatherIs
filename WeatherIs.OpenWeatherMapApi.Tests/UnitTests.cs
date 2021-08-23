@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -98,6 +99,14 @@ namespace WeatherIs.OpenWeatherMapApi.Tests
             
             Assert.ThrowsAsync<HttpRequestException>(async () =>
                 await _client.GetWithinACircleAsync(874, 211));
+        }
+
+        [Test]
+        public async Task TestCityList()
+        {
+            await CityListRetriever.RetrieveCityList();
+            
+            Assert.IsTrue(CityListRetriever.CityList.Any());
         }
     }
 }
