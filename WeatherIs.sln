@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherIs.Web", "WeatherIs.Web\WeatherIs.Web.csproj", "{18442AAD-7E38-4E07-B4AD-71D4A7044989}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherIs.OpenWeatherMapApi", "WeatherIs.OpenWeatherMapApi\WeatherIs.OpenWeatherMapApi.csproj", "{EFF3B247-54ED-46C7-B4F3-81E5959084B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherIs.OpenWeatherMapApi.Tests", "WeatherIs.OpenWeatherMapApi.Tests\WeatherIs.OpenWeatherMapApi.Tests.csproj", "{E9F358A6-2E32-46F7-830B-0D54874B2F3D}"
@@ -16,10 +14,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{18442AAD-7E38-4E07-B4AD-71D4A7044989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{18442AAD-7E38-4E07-B4AD-71D4A7044989}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{18442AAD-7E38-4E07-B4AD-71D4A7044989}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{18442AAD-7E38-4E07-B4AD-71D4A7044989}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EFF3B247-54ED-46C7-B4F3-81E5959084B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EFF3B247-54ED-46C7-B4F3-81E5959084B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFF3B247-54ED-46C7-B4F3-81E5959084B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
