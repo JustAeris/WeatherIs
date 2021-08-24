@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient x1="0.032136366" y1="0.03213638" x2="0.85281813" y2="0.8528182" id="gradient_1">
+      <stop offset="0" stop-color="#FED100" />
+      <stop offset="1" stop-color="#E36001" />
+    </linearGradient>
+    <linearGradient x1="0.43282503" y1="0.0031599998" x2="0.54045004" y2="1.01792" id="gradient_2">
+      <stop offset="0" stop-color="#FCFCFC" />
+      <stop offset="1" stop-color="#C3C9CD" />
+    </linearGradient>
+    <filter filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB" id="filter_1">
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
+      <feOffset dx="0" dy="2" />
+      <feGaussianBlur stdDeviation="2" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0.39215687 0 0 0 0 0.39215687 0 0 0 0 0.39215687 0 0 0 0.49803922 0" />
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect0_dropShadow" />
+      <feBlend mode="normal" in="SourceGraphic" in2="effect0_dropShadow" result="shape" />
+    </filter>
+    <path d="M0 0L48 0L48 48L0 48L0 0Z" id="path_1" />
+    <clipPath id="mask_1">
+      <use xlink:href="#path_1" />
+    </clipPath>
+  </defs>
+  <g filter="url(#filter_1)">
+    <g id="svg" transform="translate(6 4)">
+      <path d="M0 0L48 0L48 48L0 48L0 0Z" id="Background" fill="none" fill-rule="evenodd" stroke="none" />
+      <g clip-path="url(#mask_1)">
+        <path d="M11 0C4.925 0 0 4.925 0 11C0 17.075 4.925 22 11 22C17.075 22 22 17.075 22 11C22 4.925 17.075 0 11 0L11 0Z" transform="translate(5 7)" id="Shape" fill="url(#gradient_1)" fill-rule="evenodd" stroke="none" />
+        <path d="M30 5C29.669 5 29.343 5.018 29.02 5.049C26.741 1.99 23.108 0 19 0C13.287 0 8.48 3.837 6.988 9.071C3.049 9.569 0 12.925 0 17C0 21.418 3.582 25 8 25C9.818 25 28.107 25 30 25C35.523 25 40 20.523 40 15C40 9.477 35.523 5 30 5L30 5Z" transform="translate(5 16)" id="Shape" fill="url(#gradient_2)" fill-rule="evenodd" stroke="none" />
+      </g>
+    </g>
+  </g>
+</svg>
