@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using WeatherIs.OpenWeatherMapApi;
 using WeatherIs.OpenWeatherMapApi.Models;
 using WeatherIs.Web.Models;
+using WeatherIs.Web.Models.Cookies;
 
 namespace WeatherIs.Web.Controllers
 {
@@ -26,44 +27,15 @@ namespace WeatherIs.Web.Controllers
             if (CityListRetriever.CityList == null || !CityListRetriever.CityList.Any())
                 CityListRetriever.RetrieveCityList();
 
-            CityListItem item = null;
+            var dummy = Request.Cookies.TryParseCookie<CityListItem>("PreferredLocation", out var storedLocation);
 
-            if (Request.Cookies.TryGetValue("PreferredLocation", out var jsonLocation))
-            {
-                if (jsonLocation == null)
-                {
-                    _logger.LogWarning("Could not get preferred location cookie for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
-                }
-
-                if (jsonLocation != null) item = JsonConvert.DeserializeObject<CityListItem>(jsonLocation);
-
-                if (item == null)
-                {
-                    _logger.LogWarning("Could not read preferred location cookie for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
-                }
-            }
-
-            var unitsSettings = new { Auto = true, Type = 0 };
-            if (Request.Cookies.TryGetValue("PreferredUnits", out var jsonUnits))
-            {
-                if (jsonUnits == null)
-                {
-                    _logger.LogWarning("Could not get preferred units cookie for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
-                }
-
-                if (jsonUnits != null) unitsSettings = JsonConvert.DeserializeAnonymousType(jsonUnits, unitsSettings);
-
-                if (unitsSettings == null)
-                {
-                    _logger.LogWarning("Could not read preferred units cookie for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
-                }
-            }
+            var _ = Request.Cookies.TryParseCookie<PreferredUnits>("PreferredUnits", out var unitsSettings);
 
             return View(new SettingsViewModel
             {
-                StoredLocation = item, ErrorMessage = error,
+                StoredLocation = storedLocation, ErrorMessage = error,
                 UnitTypeName = unitsSettings != null
-                    ? unitsSettings.Auto ? "Automatic" : Enum.GetName((UnitsType)unitsSettings.Type)
+                    ? unitsSettings.Automatic ? "Automatic" : Enum.GetName(unitsSettings.Type)
                     : "Automatic"
             });
         }
@@ -124,7 +96,7 @@ namespace WeatherIs.Web.Controllers
 
             if (Request.Cookies.ContainsKey("PreferredUnits"))
                 Response.Cookies.Delete("PreferredUnits");
-            Response.Cookies.Append("PreferredUnits", JsonConvert.SerializeObject(new { Auto = type == 3, Type = unit }));
+            Response.Cookies.Append("PreferredUnits", JsonConvert.SerializeObject(new PreferredUnits{ Automatic = type == 3, Type = unit }));
 
             return Redirect("/Settings");
         }
