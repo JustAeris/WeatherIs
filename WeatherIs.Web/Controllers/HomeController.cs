@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +11,7 @@ using WeatherIs.OpenWeatherMapApi;
 using WeatherIs.OpenWeatherMapApi.Models;
 using WeatherIs.Web.Configuration;
 using WeatherIs.Web.Models;
+using WeatherIs.Web.Models.Cookies;
 
 namespace WeatherIs.Web.Controllers
 {
@@ -24,64 +24,15 @@ namespace WeatherIs.Web.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index(string ipString)
+        public async Task<IActionResult> Index(string ipString = null)
         {
-            var unitsSettings = new { Auto = true, Type = 0 };
-            if (Request.Cookies.TryGetValue("PreferredUnits", out var jsonUnits))
+            if (!Request.Cookies.TryParseCookie<PreferredUnits>("PreferredUnits", out var unitsSettings))
             {
-                if (jsonUnits == null)
-                {
-                    _logger.LogWarning("Could not get preferred units cookie for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
-                }
-                
-                if (jsonUnits != null) unitsSettings = JsonConvert.DeserializeAnonymousType(jsonUnits, unitsSettings);
-
-                if (unitsSettings == null)
-                {
-                    _logger.LogWarning("Could not read preferred units cookie for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
-                }
+                _logger.LogWarning("Could not get preferred units cookie for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
+                return View("Error");
             }
-            
-            if (Request.Cookies.TryGetValue("PreferredLocation", out var json))
-            {
-                if (json == null)
-                {
-                    _logger.LogError("Could not get preferred location cookie for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
-                    return View("Error");
-                }
 
-                var item = JsonConvert.DeserializeObject<CityListItem>(json);
-
-                if (item == null)
-                {
-                    _logger.LogError("Could not read preferred location cookie for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
-                    return View("Error");
-                }
-
-                try
-                {
-                    UnitsType unitType;
-                    if (unitsSettings == null || unitsSettings.Auto)
-                    {
-                        var culture = new RegionInfo(item.Country);
-                        unitType = culture.IsMetric ? UnitsType.Metric : UnitsType.Imperial;
-                    }
-                    else
-                        unitType = (UnitsType)unitsSettings.Type;
-                
-                    using var weatherClient = new CurrentWeatherData(ConfigContext.Config.OpenWeatherMapApiKey);
-                    var weather = await weatherClient.GetByCityIdAsync(int.Parse(item.Id.ToString(CultureInfo.InvariantCulture)),
-                        unitType);
-
-                    _logger.LogInformation("Successfully got the weather for IP '{IP}' using the stored cookie!", Request.HttpContext.Connection.RemoteIpAddress);
-                    return View("Index", new HomeViewModel { WeatherData = weather, IsUsingAutoGeolocation = false, MetricUnits = unitType == UnitsType.Metric });
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(e, "Could not read preferred location cookie!");
-                    return View(new HomeViewModel());
-                }
-            }
+            if (!Request.Cookies.TryParseCookie<CityListItem>("PreferredLocation", out var preferredLocation))
             {
                 var ip = string.IsNullOrEmpty(ipString)
                     ? Request.HttpContext.Connection.RemoteIpAddress
@@ -95,26 +46,88 @@ namespace WeatherIs.Web.Controllers
                         WeatherData = new CurrentWeatherDataResponse()
                     });
 
+                if (Request.Cookies.TryParseCookie<WeatherCache>("WeatherCache", out var ipCache))
+                {
+                    if (ipCache.ExpiryDate > DateTime.UtcNow && ip.ToString() == ipCache.IpAddress)
+                        return View("Index",
+                            new HomeViewModel
+                            {
+                                WeatherData = ipCache.WeatherData, MetricUnits = ipCache.MetricUnits,
+                                IsUsingAutoGeolocation = true
+                            });
+                }
+
                 using var ipApiEndpoint = new IpApiEndpoint();
                 var ipGeolocation = await ipApiEndpoint.GetIpGeolocationAsync(ip.ToString());
 
-                UnitsType unitType;
-                if (unitsSettings == null || unitsSettings.Auto)
+                UnitsType unitTypeByIp;
+                if (unitsSettings == null || unitsSettings.Automatic)
                 {
-                    var culture = new RegionInfo(ipGeolocation.Country);
-                    unitType = culture.IsMetric ? UnitsType.Metric : UnitsType.Imperial;
+                    var culture = new RegionInfo(ipGeolocation.CountryCode);
+                    unitTypeByIp = culture.IsMetric ? UnitsType.Metric : UnitsType.Imperial;
                 }
                 else
-                    unitType = (UnitsType)unitsSettings.Type;
-                
-                using var weatherClient = new CurrentWeatherData(ConfigContext.Config.OpenWeatherMapApiKey);
-                var weather = await weatherClient.GetByCoordsAsync(ipGeolocation.Latitude, ipGeolocation.Longitude,
-                    unitType);
+                    unitTypeByIp = unitsSettings.Type;
+
+                using var weatherClientByIp = new CurrentWeatherData(ConfigContext.Config.OpenWeatherMapApiKey);
+                var weatherByIp = await weatherClientByIp.GetByCoordsAsync(ipGeolocation.Latitude, ipGeolocation.Longitude,
+                    unitTypeByIp);
 
                 _logger.LogInformation("Successfully got the weather for IP '{IP}'!", ip.ToString());
-                
-                return View("Index", new HomeViewModel { WeatherData = weather, IsUsingAutoGeolocation = true, MetricUnits = unitType == UnitsType.Metric });                
+
+                var newIpCache = new WeatherCache
+                {
+                    IpAddress = ip.ToString(),
+                    ExpiryDate = DateTime.UtcNow + TimeSpan.FromMinutes(10),
+                    WeatherData = weatherByIp,
+                    MetricUnits = unitTypeByIp == UnitsType.Metric
+                };
+
+                if (Request.Cookies.ContainsKey("WeatherCache"))
+                    Response.Cookies.Delete("WeatherCache");
+                Response.Cookies.Append("WeatherCache", JsonConvert.SerializeObject(newIpCache));
+
+                return View("Index", new HomeViewModel { WeatherData = weatherByIp, IsUsingAutoGeolocation = true, MetricUnits = unitTypeByIp == UnitsType.Metric });
             }
+
+            if (Request.Cookies.TryParseCookie<WeatherCache>("WeatherCache", out var cache))
+            {
+                if (cache.ExpiryDate > DateTime.UtcNow && Math.Abs(cache.CityId - preferredLocation.Id) < 0.1)
+                    return View("Index",
+                        new HomeViewModel
+                        {
+                            WeatherData = cache.WeatherData, MetricUnits = cache.MetricUnits,
+                            IsUsingAutoGeolocation = false
+                        });
+            }
+
+            UnitsType unitType;
+            if (unitsSettings == null || unitsSettings.Automatic)
+            {
+                var culture = new RegionInfo(preferredLocation.Country);
+                unitType = culture.IsMetric ? UnitsType.Metric : UnitsType.Imperial;
+            }
+            else
+                unitType = unitsSettings.Type;
+
+            using var weatherClient = new CurrentWeatherData(ConfigContext.Config.OpenWeatherMapApiKey);
+            var weather = await weatherClient.GetByCityIdAsync((int) preferredLocation.Id, unitType);
+
+            _logger.LogInformation("Successfully got the weather for city ID '{CityID}'!", preferredLocation.Id);
+
+            var newCache = new WeatherCache
+            {
+                CityId = preferredLocation.Id,
+                ExpiryDate = DateTime.UtcNow + TimeSpan.FromMinutes(10),
+                WeatherData = weather,
+                MetricUnits = unitType == UnitsType.Metric
+            };
+
+            if (Request.Cookies.ContainsKey("WeatherCache"))
+                Response.Cookies.Delete("WeatherCache");
+            Response.Cookies.Append("WeatherCache", JsonConvert.SerializeObject(newCache));
+
+            return View("Index", new HomeViewModel { WeatherData = weather, IsUsingAutoGeolocation = false, MetricUnits = unitType == UnitsType.Metric });
         }
 
         public IActionResult Privacy()
