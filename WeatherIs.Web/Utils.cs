@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace WeatherIs.Web
 {
@@ -29,7 +31,7 @@ namespace WeatherIs.Web
                     return false;
             }
         }
-        
+
         public static string FirstCharToUpper(this string input) =>
             input switch
             {
@@ -37,6 +39,17 @@ namespace WeatherIs.Web
                 "" => throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input)),
                 _ => input.First().ToString().ToUpper() + input.Substring(1)
             };
-        
+
+        public static bool TryParseCookie<T>(this IRequestCookieCollection cookies, string cookieName, out T result)
+        {
+            result = default;
+            if (!cookies.TryGetValue(cookieName, out var json)) return false;
+            if (json == null)
+                return false;
+
+            result = JsonConvert.DeserializeObject<T>(json);
+
+            return result != null;
+        }
     }
 }
