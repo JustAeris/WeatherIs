@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\assets\png" />
+      <Folder Include="wwwroot\assets\favicon" />
       <Folder Include="wwwroot\lib\jquery-ui" />
     </ItemGroup>
 
