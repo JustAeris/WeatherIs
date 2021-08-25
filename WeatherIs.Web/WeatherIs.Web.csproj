@@ -5,4 +5,27 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\WeatherIs.IpApi\WeatherIs.IpApi.csproj" />
+      <ProjectReference Include="..\WeatherIs.OpenWeatherMapApi\WeatherIs.OpenWeatherMapApi.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Weather\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\assets\png" />
+      <Folder Include="wwwroot\lib\jquery-ui" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="city.list.min.json" />
+      <Content Remove="wwwroot\assets\png\background.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="city.list.min.json.gz" />
+    </ItemGroup>
+
 </Project>
