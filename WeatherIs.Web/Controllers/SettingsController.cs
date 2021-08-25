@@ -31,6 +31,8 @@ namespace WeatherIs.Web.Controllers
 
             var _ = Request.Cookies.TryParseCookie<PreferredUnits>("PreferredUnits", out var unitsSettings);
 
+            _logger.LogInformation("Successfully retrieved settings for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
+
             return View(new SettingsViewModel
             {
                 StoredLocation = storedLocation, ErrorMessage = error,
@@ -57,6 +59,8 @@ namespace WeatherIs.Web.Controllers
                 Response.Cookies.Delete("PreferredLocation");
             Response.Cookies.Append("PreferredLocation", JsonConvert.SerializeObject(city));
 
+            _logger.LogInformation("Successfully set a new preferred location for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
+
             return Redirect("/Settings");
         }
 
@@ -66,6 +70,8 @@ namespace WeatherIs.Web.Controllers
         {
             if (Request.Cookies.ContainsKey("PreferredLocation"))
                 Response.Cookies.Delete("PreferredLocation");
+
+            _logger.LogInformation("Successfully deleted the preferred location for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
 
             return Redirect("/Settings");
         }
@@ -97,6 +103,8 @@ namespace WeatherIs.Web.Controllers
             if (Request.Cookies.ContainsKey("PreferredUnits"))
                 Response.Cookies.Delete("PreferredUnits");
             Response.Cookies.Append("PreferredUnits", JsonConvert.SerializeObject(new PreferredUnits{ Automatic = type == 3, Type = unit }));
+
+            _logger.LogInformation("Successfully set new preferred units for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
 
             return Redirect("/Settings");
         }

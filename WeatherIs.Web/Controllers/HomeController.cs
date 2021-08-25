@@ -38,7 +38,7 @@ namespace WeatherIs.Web.Controllers
                     ? Request.HttpContext.Connection.RemoteIpAddress
                     : IPAddress.Parse(ipString);
 
-                if (ip.IsInternal() || ip == null)
+                if (ip == null || ip.MapToIPv4().IsInternal())
                     return View(new HomeViewModel
                     {
                         ErrorMessage = "Oops! We could not your IP to automatically determinate your geolocation :(" +
@@ -49,12 +49,15 @@ namespace WeatherIs.Web.Controllers
                 if (Request.Cookies.TryParseCookie<WeatherCache>("WeatherCache", out var ipCache))
                 {
                     if (ipCache.ExpiryDate > DateTime.UtcNow && ip.ToString() == ipCache.IpAddress)
+                    {
+                        _logger.LogInformation("Returned cache for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
                         return View("Index",
                             new HomeViewModel
                             {
                                 WeatherData = ipCache.WeatherData, MetricUnits = ipCache.MetricUnits,
                                 IsUsingAutoGeolocation = true
                             });
+                    }
                 }
 
                 using var ipApiEndpoint = new IpApiEndpoint();
@@ -93,12 +96,15 @@ namespace WeatherIs.Web.Controllers
             if (Request.Cookies.TryParseCookie<WeatherCache>("WeatherCache", out var cache))
             {
                 if (cache.ExpiryDate > DateTime.UtcNow && Math.Abs(cache.CityId - preferredLocation.Id) < 0.1)
+                {
+                    _logger.LogInformation("Returned cache for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
                     return View("Index",
                         new HomeViewModel
                         {
                             WeatherData = cache.WeatherData, MetricUnits = cache.MetricUnits,
                             IsUsingAutoGeolocation = false
                         });
+                }
             }
 
             UnitsType unitType;
