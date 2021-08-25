@@ -50,11 +50,20 @@
     <!--suppress JSUnresolvedLibraryURL -->
     <script src="https://unpkg.com/trianglify@@^4/dist/trianglify.bundle.js"></script>
     <script>
+    let bgUrl = sessionStorage.getItem("backgroundUrl");
+    if (bgUrl != null) {
+      document.body.style.background = bgUrl;
+    }
+    else {
       const pattern = trianglify({
         width: window.innerWidth,
         height: window.innerHeight
       })
-      document.body.style.background = 'url(' + pattern.toCanvas().toDataURL() + ')';
+      const newBgUrl = 'url(' + pattern.toCanvas().toDataURL() + ')'
+      document.body.style.background = newBgUrl;
+      sessionStorage.setItem("backgroundUrl", newBgUrl);
+    }
+
     </script>
 </body>
 </html>
