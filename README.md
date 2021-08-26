@@ -7,6 +7,12 @@
   <a href="https://twitter.com/Justaeris" target="_blank">
     <img alt="Twitter: Justaeris" src="https://img.shields.io/twitter/follow/Justaeris.svg?style=social" />
   </a>
+  <a href="https://teamcity.aeris.dev">
+    <img src="https://teamcity.aeris.dev/app/rest/builds/buildType:id:WeatherIs_Build/statusIcon.svg" alt="TeamCity build status">
+  </a>
+  <a href="https://weatheris.aeris.dev">
+    <img src="https://img.shields.io/website?down_color=red&down_message=down&up_color=green&up_message=up&url=https%3A%2F%2Fweatheris.aeris.dev" alt="Website build status">
+  </a>
 </p>
 
 > A simple and polished website made to give quick information about the weather in you area, build in C# with ASP.NET MVC.
