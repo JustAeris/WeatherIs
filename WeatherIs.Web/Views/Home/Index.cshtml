@@ -79,7 +79,7 @@
                     }
                     else
                     {
-                        @Html.Raw("miles/h")
+                        @Html.Raw("mph")
                     }
                     <br/>
                     Gust: @Html.Raw(Model.MetricUnits ? (Model.WeatherData.Wind.Gust * 3.6).ToString("N") : Model.WeatherData.Wind.Gust)
