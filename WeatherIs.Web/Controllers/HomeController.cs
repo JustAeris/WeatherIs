@@ -24,7 +24,7 @@ namespace WeatherIs.Web.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index(string ipString = null)
+        public async Task<IActionResult> Index(bool forceRefresh = false, string ipString = null)
         {
             if (!Request.Cookies.TryParseCookie<PreferredUnits>("PreferredUnits", out var unitsSettings))
             {
@@ -48,7 +48,7 @@ namespace WeatherIs.Web.Controllers
 
                 if (Request.Cookies.TryParseCookie<WeatherCache>("WeatherCache", out var ipCache))
                 {
-                    if (ipCache.ExpiryDate > DateTime.UtcNow && ip.ToString() == ipCache.IpAddress)
+                    if (ipCache.ExpiryDate > DateTime.UtcNow && ip.ToString() == ipCache.IpAddress && !forceRefresh)
                     {
                         _logger.LogInformation("Returned cache for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
                         return View("Index",
@@ -95,7 +95,7 @@ namespace WeatherIs.Web.Controllers
 
             if (Request.Cookies.TryParseCookie<WeatherCache>("WeatherCache", out var cache))
             {
-                if (cache.ExpiryDate > DateTime.UtcNow && Math.Abs(cache.CityId - preferredLocation.Id) < 0.1)
+                if (cache.ExpiryDate > DateTime.UtcNow && Math.Abs(cache.CityId - preferredLocation.Id) < 0.1 && !forceRefresh)
                 {
                     _logger.LogInformation("Returned cache for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
                     return View("Index",
