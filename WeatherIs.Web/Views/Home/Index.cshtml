@@ -1,8 +1,128 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
+@model HomeViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (Model.WeatherData?.MainData != null)
+{
+    @if (Model.IsUsingAutoGeolocation)
+    {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            Please note that the data provided below <strong>may be inaccurate</strong> since we're using your IP to geolocalise you.<br/>
+            For better precision, consider setting a <strong>preferred location</strong> in the settings, which will be used instead of the IP.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    <div class="flex" style="width: 100%">
+        <div class="div-image" style="width: 50%;">
+            <img src="assets/svg/@{@Html.Raw(Model.WeatherData.Weathers.FirstOrDefault()?.IconId)}.svg" alt="Weather Icon" width="100%" height="100%">
+        </div>
+        <div class="div-information" style="width: 50%;">
+            <h1>
+                @Html.Raw(Model.WeatherData.Weathers.FirstOrDefault()?.Description.FirstCharToUpper())
+            </h1>
+            <h1>
+                @Html.Raw(Model.WeatherData.MainData.Temperature)
+                @if (Model.MetricUnits)
+                {
+                    @Html.Raw("°C")
+                }
+                else
+                {
+                    @Html.Raw("°F")
+                }
+            </h1>
+            <h2>
+                In @Html.Raw(Model.WeatherData.CityName)<br/>
+            </h2>
+            <div class="d-flex flex-row flex-wrap" style="margin-top: 10px; flex-grow: 1">
+                <div class="m-2" style="flex: auto">
+                    <h4>Temperatures</h4>
+                    Min: @Html.Raw(Model.WeatherData.MainData.TemperatureMinimum)
+                    @if (Model.MetricUnits)
+                    {
+                        @Html.Raw("°C")
+                    }
+                    else
+                    {
+                        @Html.Raw("°F")
+                    }
+                    <br/>
+                    Max: @Html.Raw(Model.WeatherData.MainData.TemperatureMaximum)
+                    @if (Model.MetricUnits)
+                    {
+                        @Html.Raw("°C")
+                    }
+                    else
+                    {
+                        @Html.Raw("°F")
+                    }
+                    <br/>
+                    Feels like: @Html.Raw(Model.WeatherData.MainData.TemperatureFeelsLike)
+                    @if (Model.MetricUnits)
+                    {
+                        @Html.Raw("°C")
+                    }
+                    else
+                    {
+                        @Html.Raw("°F")
+                    }
+                </div>
+                <div class="m-2" style="flex: auto">
+                    <h4>Wind</h4>
+                    Speed: @Html.Raw(Model.MetricUnits ? (Model.WeatherData.Wind.Speed * 3.6).ToString("N") : Model.WeatherData.Wind.Speed)
+                    @if (Model.MetricUnits)
+                    {
+                        @Html.Raw("km/h")
+                    }
+                    else
+                    {
+                        @Html.Raw("mph")
+                    }
+                    <br/>
+                    Gust: @Html.Raw(Model.MetricUnits ? (Model.WeatherData.Wind.Gust * 3.6).ToString("N") : Model.WeatherData.Wind.Gust)
+                    @if (Model.MetricUnits)
+                    {
+                        @Html.Raw("km/h")
+                    }
+                    else
+                    {
+                        @Html.Raw("miles/h")
+                    }
+                    <br/>
+                    Direction: @Html.Raw(Model.ResolveWindDirection)
+                </div>
+                <div class="m-2" style="flex: auto">
+                    <h4>Cloudiness</h4>
+                    @Html.Raw(Model.WeatherData.Clouds.Cloudiness)%<br/>
+                    Humidity: @Html.Raw(Model.WeatherData.MainData.Humidity)%
+                </div>
+                @if (Model.WeatherData.Rain != null)
+                {
+                    <div class="m-2">
+                        <h4>Rain</h4>
+                        In the last hour: @Html.Raw(Model.WeatherData.Rain.LastHour)mm<br/>
+                        In the last 3 hours: @Html.Raw(Model.WeatherData.Rain.LastThreeHours)mm
+                    </div>
+                }
+                @if (Model.WeatherData.Rain != null)
+                {
+                    <div class="m-2">
+                        <h4>Snow</h4>
+                        In the last hour: @Html.Raw(Model.WeatherData.Snow.LastHour)mm<br/>
+                        In the last 3 hours: @Html.Raw(Model.WeatherData.Snow.LastThreeHours)mm
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Oops, an error occured!</strong> You should check your preferred location in the <a asp-controller="Settings" asp-action="Index">settings</a>.<br/>
+        If the error persists, contact me <a href="mailto:aeris.github@gmail.com">here</a>!
+    </div>
+}

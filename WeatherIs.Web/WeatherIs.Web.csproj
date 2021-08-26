@@ -5,4 +5,36 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\WeatherIs.IpApi\WeatherIs.IpApi.csproj" />
+      <ProjectReference Include="..\WeatherIs.OpenWeatherMapApi\WeatherIs.OpenWeatherMapApi.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Weather\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\assets\favicon" />
+      <Folder Include="wwwroot\lib\jquery-ui" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="city.list.min.json" />
+      <Content Remove="wwwroot\assets\png\background.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="city.list.min.json.gz" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Serilog" Version="2.10.0" />
+      <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
+      <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
+      <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0" />
+      <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+      <PackageReference Include="Serilog.Sinks.LogDNA" Version="1.0.3" />
+    </ItemGroup>
+
 </Project>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient gradientUnits="objectBoundingBox" cx="90.775%" cy="98.095%" fx="90.775%" fy="98.095%" r="109.41748%" gradientTransform="translate(0.90775,0.98095),translate(-0.90775,-0.98095)" id="gradient_1">
+      <stop offset="0%" stop-color="#6D75D6" />
+      <stop offset="12.299999%" stop-color="#8189DE" />
+      <stop offset="38.4%" stop-color="#A7ADEC" />
+      <stop offset="62.5%" stop-color="#C3C7F6" />
+      <stop offset="83.8%" stop-color="#D3D6FD" />
+      <stop offset="100%" stop-color="#D9DCFF" />
+    </radialGradient>
+    <radialGradient gradientUnits="objectBoundingBox" cx="67.74477%" cy="81.267296%" fx="67.74477%" fy="81.267296%" r="86.40041%" gradientTransform="translate(0.6774477,0.812673),translate(-0.6774477,-0.812673)" id="gradient_2">
+      <stop offset="31.3%" stop-color="#6063E0" stop-opacity="0" />
+      <stop offset="100%" stop-color="#6063E0" />
+    </radialGradient>
+    <radialGradient gradientUnits="objectBoundingBox" cx="67.75%" cy="81.25%" fx="67.75%" fy="81.25%" r="86.40001%" gradientTransform="translate(0.6775,0.8125),translate(-0.6775,-0.8125)" id="gradient_3">
+      <stop offset="31.3%" stop-color="#6063E0" stop-opacity="0" />
+      <stop offset="100%" stop-color="#6063E0" />
+    </radialGradient>
+    <radialGradient gradientUnits="objectBoundingBox" cx="67.76666%" cy="81.26664%" fx="67.76666%" fy="81.26664%" r="86.40003%" gradientTransform="translate(0.67766666,0.8126664),translate(-0.67766666,-0.8126664)" id="gradient_4">
+      <stop offset="31.3%" stop-color="#6063E0" stop-opacity="0" />
+      <stop offset="100%" stop-color="#6063E0" />
+    </radialGradient>
+    <filter filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB" id="filter_1">
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
+      <feOffset dx="0" dy="2" />
+      <feGaussianBlur stdDeviation="2" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0.39215687 0 0 0 0 0.39215687 0 0 0 0 0.39215687 0 0 0 0.49803922 0" />
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect0_dropShadow" />
+      <feBlend mode="normal" in="SourceGraphic" in2="effect0_dropShadow" result="shape" />
+    </filter>
+    <path d="M0 0L48 0L48 48L0 48L0 0Z" id="path_1" />
+    <clipPath id="mask_1">
+      <use xlink:href="#path_1" />
+    </clipPath>
+  </defs>
+  <g filter="url(#filter_1)">
+    <g id="svg" transform="translate(6 4)">
+      <path d="M0 0L48 0L48 48L0 48L0 0Z" id="Background" fill="none" fill-rule="evenodd" stroke="none" />
+      <g clip-path="url(#mask_1)">
+        <path d="M20 0C8.954 0 0 8.954 0 20C0 31.046 8.954 40 20 40C31.046 40 40 31.046 40 20C40 8.954 31.046 0 20 0L20 0Z" transform="translate(4 4)" id="Shape" fill="url(#gradient_1)" fill-rule="evenodd" stroke="none" />
+        <path d="M3 0C1.343 0 0 1.343 0 3C0 4.657 1.343 6 3 6C4.657 6 6 4.657 6 3C6 1.343 4.657 0 3 0L3 0Z" transform="translate(18 10)" id="Shape" fill="url(#gradient_2)" fill-rule="evenodd" stroke="none" />
+        <path d="M2 0C0.895 0 0 0.895 0 2C0 3.105 0.895 4 2 4C3.105 4 4 3.105 4 2C4 0.895 3.105 0 2 0L2 0Z" transform="translate(11 22)" id="Shape" fill="url(#gradient_3)" fill-rule="evenodd" stroke="none" />
+        <path d="M1.5 0C0.672001 0 0 0.672001 0 1.5C0 2.328 0.672001 3 1.5 3C2.328 3 3 2.328 3 1.5C3 0.672001 2.328 0 1.5 0L1.5 0Z" transform="translate(35 20)" id="Shape" fill="url(#gradient_4)" fill-rule="evenodd" stroke="none" />
+        <path d="M3.675 0L2 0C0.896 0 0 0.896 0 2C0 3.104 0.896 4 2 4L5 4C6.104 4 7 4.896 7 6C7 7.104 6.104 8 5 8C3.896 8 3 8.896 3 10C3 11.104 3.896 12 5 12L22 12C13.801 12 6.763 7.061 3.675 0L3.675 0Z" transform="translate(2 32)" id="Shape" fill="#5059C9" fill-rule="evenodd" stroke="none" />
+        <path d="M18 0L11.964 0C8.625 2.501 4.493 4 0 4L18 4C18.8 4 19.485 3.527 19.805 2.848L19.806 2.848L19.807 2.846C19.864 2.723 19.911 2.596 19.942 2.461C19.944 2.453 19.948 2.445 19.95 2.438C19.98 2.296 20 2.15 20 2C20 0.896 19.104 0 18 0L18 0Z" transform="translate(24 40)" id="Shape" fill="#5059C9" fill-rule="evenodd" stroke="none" />
+        <path d="M24.325 16C23.221 16 22.325 15.104 22.325 14C22.325 12.896 23.221 12 24.325 12L30.325 12C31.429 12 32.325 11.104 32.325 10C32.325 8.896 31.429 8 30.325 8L21.325 8L18.325 8L14.325 8C13.221 8 12.325 7.104 12.325 6C12.325 4.898 13.215 4.006 14.315 4.001L16.325 4.001C17.429 4.001 18.325 3.105 18.325 2.001L18.325 2C18.325 0.896 17.429 0 16.325 0L2.325 0L2.325 0.000999451C1.221 0.000999451 0.325 0.896999 0.325 2.001C0.325 3.105 1.221 4.001 2.325 4.001L2.325 4L4.325 4C5.43 4 6.325 4.895 6.325 6C6.325 7.105 5.43 8 4.325 8L0 8C3.088 15.061 10.126 20 18.325 20C22.817 20 26.95 18.501 30.289 16L24.325 16L24.325 16Z" transform="translate(5.674988 24)" id="Shape" fill="#7B83EB" fill-rule="evenodd" stroke="none" />
+      </g>
+    </g>
+  </g>
+</svg>

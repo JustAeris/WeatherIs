@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient gradientUnits="objectBoundingBox" cx="50%" cy="50%" fx="50%" fy="50%" r="50.00001%" gradientTransform="translate(0.5,0.5),translate(-0.5,-0.5)" id="gradient_1">
+      <stop offset="72.399994%" stop-color="#FFED54" />
+      <stop offset="77.9%" stop-color="#FFE649" />
+      <stop offset="87.7%" stop-color="#FFD22D" />
+      <stop offset="100%" stop-color="#FFB300" />
+    </radialGradient>
+    <linearGradient x1="0.03211765" y1="0.03211765" x2="0.85282344" y2="0.85282344" id="gradient_2">
+      <stop offset="0" stop-color="#FED100" />
+      <stop offset="1" stop-color="#E36001" />
+    </linearGradient>
+    <filter filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB" id="filter_1">
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
+      <feOffset dx="0" dy="2" />
+      <feGaussianBlur stdDeviation="2" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0.39215687 0 0 0 0 0.39215687 0 0 0 0 0.39215687 0 0 0 0.49803922 0" />
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect0_dropShadow" />
+      <feBlend mode="normal" in="SourceGraphic" in2="effect0_dropShadow" result="shape" />
+    </filter>
+    <path d="M0 0L48 0L48 48L0 48L0 0Z" id="path_1" />
+    <clipPath id="mask_1">
+      <use xlink:href="#path_1" />
+    </clipPath>
+  </defs>
+  <g filter="url(#filter_1)">
+    <g id="svg-2" transform="translate(6 4)">
+      <path d="M0 0L48 0L48 48L0 48L0 0Z" id="Background" fill="none" fill-rule="evenodd" stroke="none" />
+      <g clip-path="url(#mask_1)">
+        <path d="M22 0L23.421 1.474C24.351 2.439 25.809 2.67 26.992 2.04L28.799 1.077L29.695 2.918C30.281 4.123 31.597 4.794 32.917 4.559L34.933 4.202L35.216 6.23C35.401 7.558 36.445 8.601 37.773 8.787L39.801 9.07L39.444 11.086C39.21 12.406 39.88 13.721 41.085 14.308L42.926 15.204L41.963 17.011C41.332 18.194 41.563 19.652 42.529 20.582L44 22L42.526 23.421C41.561 24.351 41.33 25.809 41.96 26.992L42.923 28.799L41.082 29.695C39.877 30.281 39.206 31.597 39.441 32.917L39.798 34.933L37.77 35.216C36.442 35.401 35.399 36.445 35.213 37.773L34.93 39.801L32.914 39.444C31.594 39.21 30.279 39.88 29.692 41.085L28.796 42.926L26.989 41.963C25.806 41.332 24.348 41.563 23.418 42.529L22 44L20.579 42.526C19.649 41.561 18.191 41.33 17.008 41.96L15.201 42.923L14.305 41.082C13.719 39.877 12.403 39.206 11.083 39.441L9.067 39.798L8.784 37.77C8.599 36.442 7.555 35.399 6.227 35.213L4.199 34.93L4.556 32.914C4.79 31.594 4.12 30.279 2.915 29.692L1.074 28.796L2.037 26.989C2.668 25.806 2.437 24.348 1.471 23.418L0 22L1.474 20.579C2.439 19.649 2.67 18.191 2.04 17.008L1.077 15.201L2.918 14.305C4.123 13.719 4.794 12.403 4.559 11.083L4.202 9.067L6.23 8.784C7.558 8.599 8.601 7.555 8.787 6.227L9.07 4.199L11.086 4.556C12.406 4.79 13.721 4.12 14.308 2.915L15.204 1.074L17.011 2.037C18.194 2.668 19.652 2.437 20.582 1.471L22 0L22 0Z" transform="translate(2 2)" id="Shape" fill="url(#gradient_1)" fill-rule="evenodd" stroke="none" />
+        <path d="M17 0C7.611 0 0 7.611 0 17C0 26.389 7.611 34 17 34C26.389 34 34 26.389 34 17C34 7.611 26.389 0 17 0L17 0Z" transform="translate(7 7)" id="Shape" fill="url(#gradient_2)" fill-rule="evenodd" stroke="none" />
+      </g>
+    </g>
+  </g>
+</svg>
