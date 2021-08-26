@@ -17,54 +17,54 @@
     }
     <div class="flex" style="width: 100%">
         <div class="div-image" style="width: 50%;">
-            <img src="assets/svg/@{@Html.Raw(Model.WeatherData.Weathers.FirstOrDefault()?.IconId)}.svg" alt="Weather Icon" width="100%" height="100%">
+            <img src="assets/svg/@{@Model.WeatherData.Weathers.FirstOrDefault()?.IconId}.svg" alt="Weather Icon" width="100%" height="100%">
         </div>
         <div class="div-information" style="width: 50%;">
             <h1>
-                @Html.Raw(Model.WeatherData.Weathers.FirstOrDefault()?.Description.FirstCharToUpper())
+                @Model.WeatherData.Weathers.FirstOrDefault()?.Description.FirstCharToUpper()
             </h1>
             <h1>
-                @Html.Raw(Model.WeatherData.MainData.Temperature)@Model.TemperatureUnit
+                @Model.WeatherData.MainData.Temperature@Model.TemperatureUnit
             </h1>
             <h2>
-                In @Html.Raw(Model.WeatherData.CityName)<br/>
+                In @Model.WeatherData.CityName<br/>
             </h2>
             <div class="d-flex flex-row flex-wrap" style="margin-top: 10px; flex-grow: 1">
                 <div class="m-2" style="flex: auto">
                     <h4>Temperatures</h4>
-                    Min: @Html.Raw(Model.WeatherData.MainData.TemperatureMinimum)@Model.TemperatureUnit
+                    Min: @Model.WeatherData.MainData.TemperatureMinimum@Model.TemperatureUnit
                     <br/>
-                    Max: @Html.Raw(Model.WeatherData.MainData.TemperatureMaximum)@Model.TemperatureUnit
+                    Max: @Model.WeatherData.MainData.TemperatureMaximum@Model.TemperatureUnit
                     <br/>
-                    Feels like: @Html.Raw(Model.WeatherData.MainData.TemperatureFeelsLike)@Model.TemperatureUnit
+                    Feels like: @Model.WeatherData.MainData.TemperatureFeelsLike@Model.TemperatureUnit
                 </div>
                 <div class="m-2" style="flex: auto">
                     <h4>Wind</h4>
-                    Speed: @Html.Raw(Model.MetricUnits ? (Model.WeatherData.Wind.Speed * 3.6).ToString("N") : Model.WeatherData.Wind.Speed)@Model.WindSpeedUnit
+                    Speed: @(Model.MetricUnits ? (Model.WeatherData.Wind.Speed * 3.6).ToString("N") : Model.WeatherData.Wind.Speed) @Model.WindSpeedUnit
                     <br/>
-                    Gust: @Html.Raw(Model.MetricUnits ? (Model.WeatherData.Wind.Gust * 3.6).ToString("N") : Model.WeatherData.Wind.Gust)@Model.WindSpeedUnit
+                    Gust: @(Model.MetricUnits ? (Model.WeatherData.Wind.Gust * 3.6).ToString("N") : Model.WeatherData.Wind.Gust) @Model.WindSpeedUnit
                     <br/>
-                    Direction: @Html.Raw(Model.ResolveWindDirection)
+                    Direction: @Model.ResolveWindDirection
                 </div>
                 <div class="m-2" style="flex: auto">
                     <h4>Cloudiness</h4>
-                    @Html.Raw(Model.WeatherData.Clouds.Cloudiness)%<br/>
-                    Humidity: @Html.Raw(Model.WeatherData.MainData.Humidity)%
+                    @(Model.WeatherData.Clouds.Cloudiness)%<br/>
+                    Humidity: @(Model.WeatherData.MainData.Humidity)%
                 </div>
                 @if (Model.WeatherData.Rain != null)
                 {
                     <div class="m-2">
                         <h4>Rain</h4>
-                        In the last hour: @Html.Raw(Model.WeatherData.Rain.LastHour)mm<br/>
-                        In the last 3 hours: @Html.Raw(Model.WeatherData.Rain.LastThreeHours)mm
+                        In the last hour: @(Model.WeatherData.Rain.LastHour)mm<br/>
+                        In the last 3 hours: @(Model.WeatherData.Rain.LastThreeHours)mm
                     </div>
                 }
                 @if (Model.WeatherData.Snow != null)
                 {
                     <div class="m-2">
                         <h4>Snow</h4>
-                        In the last hour: @Html.Raw(Model.WeatherData.Snow.LastHour)mm<br/>
-                        In the last 3 hours: @Html.Raw(Model.WeatherData.Snow.LastThreeHours)mm
+                        In the last hour: @(Model.WeatherData.Snow.LastHour)mm<br/>
+                        In the last 3 hours: @(Model.WeatherData.Snow.LastThreeHours)mm
                     </div>
                 }
             </div>
