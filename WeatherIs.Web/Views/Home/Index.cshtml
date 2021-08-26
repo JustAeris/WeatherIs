@@ -24,15 +24,7 @@
                 @Html.Raw(Model.WeatherData.Weathers.FirstOrDefault()?.Description.FirstCharToUpper())
             </h1>
             <h1>
-                @Html.Raw(Model.WeatherData.MainData.Temperature)
-                @if (Model.MetricUnits)
-                {
-                    @Html.Raw("°C")
-                }
-                else
-                {
-                    @Html.Raw("°F")
-                }
+                @Html.Raw(Model.WeatherData.MainData.Temperature)@Model.TemperatureUnit
             </h1>
             <h2>
                 In @Html.Raw(Model.WeatherData.CityName)<br/>
@@ -40,57 +32,17 @@
             <div class="d-flex flex-row flex-wrap" style="margin-top: 10px; flex-grow: 1">
                 <div class="m-2" style="flex: auto">
                     <h4>Temperatures</h4>
-                    Min: @Html.Raw(Model.WeatherData.MainData.TemperatureMinimum)
-                    @if (Model.MetricUnits)
-                    {
-                        @Html.Raw("°C")
-                    }
-                    else
-                    {
-                        @Html.Raw("°F")
-                    }
+                    Min: @Html.Raw(Model.WeatherData.MainData.TemperatureMinimum)@Model.TemperatureUnit
                     <br/>
-                    Max: @Html.Raw(Model.WeatherData.MainData.TemperatureMaximum)
-                    @if (Model.MetricUnits)
-                    {
-                        @Html.Raw("°C")
-                    }
-                    else
-                    {
-                        @Html.Raw("°F")
-                    }
+                    Max: @Html.Raw(Model.WeatherData.MainData.TemperatureMaximum)@Model.TemperatureUnit
                     <br/>
-                    Feels like: @Html.Raw(Model.WeatherData.MainData.TemperatureFeelsLike)
-                    @if (Model.MetricUnits)
-                    {
-                        @Html.Raw("°C")
-                    }
-                    else
-                    {
-                        @Html.Raw("°F")
-                    }
+                    Feels like: @Html.Raw(Model.WeatherData.MainData.TemperatureFeelsLike)@Model.TemperatureUnit
                 </div>
                 <div class="m-2" style="flex: auto">
                     <h4>Wind</h4>
-                    Speed: @Html.Raw(Model.MetricUnits ? (Model.WeatherData.Wind.Speed * 3.6).ToString("N") : Model.WeatherData.Wind.Speed)
-                    @if (Model.MetricUnits)
-                    {
-                        @Html.Raw("km/h")
-                    }
-                    else
-                    {
-                        @Html.Raw("mph")
-                    }
+                    Speed: @Html.Raw(Model.MetricUnits ? (Model.WeatherData.Wind.Speed * 3.6).ToString("N") : Model.WeatherData.Wind.Speed)@Model.WindSpeedUnit
                     <br/>
-                    Gust: @Html.Raw(Model.MetricUnits ? (Model.WeatherData.Wind.Gust * 3.6).ToString("N") : Model.WeatherData.Wind.Gust)
-                    @if (Model.MetricUnits)
-                    {
-                        @Html.Raw("km/h")
-                    }
-                    else
-                    {
-                        @Html.Raw("miles/h")
-                    }
+                    Gust: @Html.Raw(Model.MetricUnits ? (Model.WeatherData.Wind.Gust * 3.6).ToString("N") : Model.WeatherData.Wind.Gust)@Model.WindSpeedUnit
                     <br/>
                     Direction: @Html.Raw(Model.ResolveWindDirection)
                 </div>

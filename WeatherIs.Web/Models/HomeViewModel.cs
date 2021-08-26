@@ -21,6 +21,18 @@ namespace WeatherIs.Web.Models
             _ => "Unresolved"
         };
 
+        public string TemperatureUnit => MetricUnits switch
+        {
+            true => "°C",
+            false => "°F"
+        };
+
+        public string WindSpeedUnit => MetricUnits switch
+        {
+            true => "km/h",
+            false => "mph"
+        };
+
         public string ErrorMessage { get; set; }
 
         public bool IsUsingAutoGeolocation { get; set; }
