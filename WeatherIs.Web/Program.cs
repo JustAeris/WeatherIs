@@ -14,6 +14,7 @@ namespace WeatherIs.Web
                 .WriteTo.Console(outputTemplate: Utils.Logging.LogTemplate, theme: new Utils.Logging.LoggingTheme())
                 .WriteTo.File("logs/logs-.log", outputTemplate: Utils.Logging.LogTemplate,
                     rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Information)
+                .WriteTo.LogDNA(Configuration.ConfigContext.Config.LogDnaKey, "WeatherIs")
                 .CreateLogger();
 
             CreateHostBuilder(args).Build().Run();
