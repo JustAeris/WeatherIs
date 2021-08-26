@@ -38,7 +38,7 @@ namespace WeatherIs.Web.Controllers
                     ? Request.HttpContext.Connection.RemoteIpAddress
                     : IPAddress.Parse(ipString);
 
-                if (ip == null || ip.MapToIPv4().IsInternal())
+                if (ip == null || ip.IsInternal())
                     return View(new HomeViewModel
                     {
                         ErrorMessage = "Oops! We could not your IP to automatically determinate your geolocation :(" +

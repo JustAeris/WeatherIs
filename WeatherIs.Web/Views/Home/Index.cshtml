@@ -92,10 +92,12 @@
                         @Html.Raw("miles/h")
                     }
                     <br/>
+                    Direction: @Html.Raw(Model.ResolveWindDirection)
                 </div>
                 <div class="m-2" style="flex: auto">
                     <h4>Cloudiness</h4>
-                    @Html.Raw(Model.WeatherData.Clouds.Cloudiness)%
+                    @Html.Raw(Model.WeatherData.Clouds.Cloudiness)%<br/>
+                    Humidity: @Html.Raw(Model.WeatherData.MainData.Humidity)%
                 </div>
                 @if (Model.WeatherData.Rain != null)
                 {
@@ -122,8 +124,5 @@ else
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Oops, an error occured!</strong> You should check your preferred location in the <a asp-controller="Settings" asp-action="Index">settings</a>.<br/>
         If the error persists, contact me <a href="mailto:aeris.github@gmail.com">here</a>!
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
     </div>
 }
