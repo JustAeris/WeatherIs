@@ -29,7 +29,6 @@ namespace WeatherIs.Web.Controllers
             if (!Request.Cookies.TryParseCookie<PreferredUnits>("PreferredUnits", out var unitsSettings))
             {
                 _logger.LogWarning("Could not get preferred units cookie for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
-                return View("Error");
             }
 
             if (!Request.Cookies.TryParseCookie<CityListItem>("PreferredLocation", out var preferredLocation))
