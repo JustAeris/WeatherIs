@@ -136,7 +136,7 @@ namespace WeatherIs.Web.Controllers
             return View("Index", new HomeViewModel { WeatherData = weather, IsUsingAutoGeolocation = false, MetricUnits = unitType == UnitsType.Metric });
         }
 
-        public IActionResult Privacy()
+        public IActionResult About()
         {
             return View();
         }
