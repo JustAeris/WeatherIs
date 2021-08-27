@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using WeatherIs.OpenWeatherMapApi.Models.IndividualModels;
+using WeatherIs.OpenWeatherMapApi.Models.IndividualModels.CurrentWeather;
 
 namespace WeatherIs.OpenWeatherMapApi.Models
 {
@@ -14,7 +14,7 @@ namespace WeatherIs.OpenWeatherMapApi.Models
         [JsonProperty("state")] public string State { get; set; }
 
         [JsonProperty("country")] public string Country { get; set; }
-        
+
         [JsonProperty("coord")] public Coords Coords { get; set; }
     }
 
