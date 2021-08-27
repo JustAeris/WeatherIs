@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace WeatherIs.OpenWeatherMapApi.Models.IndividualModels
+namespace WeatherIs.OpenWeatherMapApi.Models.IndividualModels.CurrentWeather
 {
-    public class Rain
+    public class Snow
     {
         [JsonProperty("1h")]
         public float LastHour { get; set; }

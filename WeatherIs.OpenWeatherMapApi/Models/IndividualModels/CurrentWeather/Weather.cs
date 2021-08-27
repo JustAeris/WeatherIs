@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace WeatherIs.OpenWeatherMapApi.Models.IndividualModels
+namespace WeatherIs.OpenWeatherMapApi.Models.IndividualModels.CurrentWeather
 {
     public class Weather
     {
