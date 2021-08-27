@@ -22,6 +22,9 @@
     <ItemGroup>
       <Content Remove="city.list.min.json" />
       <Content Remove="wwwroot\assets\png\background.png" />
+      <Content Update="config.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
