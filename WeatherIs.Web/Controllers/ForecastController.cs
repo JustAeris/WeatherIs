@@ -26,7 +26,7 @@ namespace WeatherIs.Web.Controllers
         }
 
         // GET
-        public async Task<IActionResult> Index(bool forceRefresh, string ipString)
+        public async Task<IActionResult> Index(bool forceRefresh = false, string ipString = null)
         {
             if (!Request.Cookies.TryParseCookie<PreferredUnits>("PreferredUnits", out var unitsSettings))
             {
@@ -94,7 +94,7 @@ namespace WeatherIs.Web.Controllers
                 return View("Index", new ForecastViewModel { ForecastData = forecastByIp, IsUsingAutoGeolocation = true, MetricUnits = unitTypeByIp == UnitsType.Metric });
             }
 
-            if (Request.Cookies.TryParseCookie<ForecastCache>("WeatherCache", out var cache))
+            if (Request.Cookies.TryParseCookie<ForecastCache>("ForecastCache", out var cache))
             {
                 if (cache.ExpiryDate > DateTime.UtcNow && Math.Abs(cache.CityId - preferredLocation.Id) < 0.1 && !forceRefresh)
                 {
@@ -146,9 +146,9 @@ namespace WeatherIs.Web.Controllers
                 MetricUnits = unitType == UnitsType.Metric
             };
 
-            if (Request.Cookies.ContainsKey("WeatherCache"))
-                Response.Cookies.Delete("WeatherCache");
-            Response.Cookies.Append("WeatherCache", JsonConvert.SerializeObject(newCache));
+            if (Request.Cookies.ContainsKey("ForecastCache"))
+                Response.Cookies.Delete("ForecastCache");
+            Response.Cookies.Append("ForecastCache", JsonConvert.SerializeObject(newCache));
 
             return View("Index", new ForecastViewModel { ForecastData = forecast, IsUsingAutoGeolocation = false, MetricUnits = unitType == UnitsType.Metric });
         }

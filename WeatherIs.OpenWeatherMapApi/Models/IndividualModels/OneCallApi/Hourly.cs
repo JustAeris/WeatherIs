@@ -31,6 +31,6 @@ namespace WeatherIs.OpenWeatherMapApi.Models.IndividualModels.OneCallApi
 
         [JsonProperty("weather")] public List<Weather> Weather { get; set; }
 
-        [JsonProperty("pop")] public int Pop { get; set; }
+        [JsonProperty("pop")] public double Pop { get; set; }
     }
 }
