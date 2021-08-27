@@ -9,7 +9,7 @@
 @if (Model.ErrorMessage != null)
 {
     <div class="alert alert-info alert-dismissible fade show" role="alert">
-        @Html.Raw(Model.ErrorMessage)
+        @Model.ErrorMessage
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -25,7 +25,7 @@
     <div class="form-group row">
         <label for="currentCity" class="col-sm-2 col-form-label">Current</label>
         <div class="col-sm-10">
-            <input type="text" readonly class="form-control" id="currentCity" value="@{ @Html.Raw(Model.Name) }">
+            <input type="text" readonly class="form-control" id="currentCity" value="@Model.Name">
         </div>
     </div>
 
@@ -40,7 +40,7 @@
 </form>
 
 <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#exampleModalCenter"
-        aria-describedby="passwordHelpBlock" style="margin-top: 20px" @Html.Raw(Model.StoredLocation == null ? "disabled" : null)>
+        aria-describedby="passwordHelpBlock" style="margin-top: 20px" @(Model.StoredLocation == null ? "disabled" : null)>
     Delete stored location
 </button>
 <small id="passwordHelpBlock" class="form-text text-muted">
@@ -75,7 +75,7 @@
 <div class="form-group row" style="margin-top: 20px">
     <label for="staticUnitsName" class="col-sm-2 col-form-label">Current</label>
     <div class="col-sm-10">
-        <input type="text" readonly class="form-control" id="staticUnitsName" value="@Html.Raw(Model.UnitTypeName)">
+        <input type="text" readonly class="form-control" id="staticUnitsName" value="@Model.UnitTypeName">
     </div>
 </div>
 <div class="form-group row">
