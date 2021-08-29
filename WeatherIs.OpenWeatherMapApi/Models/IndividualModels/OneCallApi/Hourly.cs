@@ -5,7 +5,7 @@ namespace WeatherIs.OpenWeatherMapApi.Models.IndividualModels.OneCallApi
 {
     public class Hourly
     {
-        [JsonProperty("dt")] public int Dt { get; set; }
+        [JsonProperty("dt")] public long Dt { get; set; }
 
         [JsonProperty("temp")] public double Temp { get; set; }
 

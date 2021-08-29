@@ -5,15 +5,15 @@ namespace WeatherIs.OpenWeatherMapApi.Models.IndividualModels.OneCallApi
 {
     public class Daily
     {
-        [JsonProperty("dt")] public int Dt { get; set; }
+        [JsonProperty("dt")] public long Dt { get; set; }
 
-        [JsonProperty("sunrise")] public int Sunrise { get; set; }
+        [JsonProperty("sunrise")] public long Sunrise { get; set; }
 
-        [JsonProperty("sunset")] public int Sunset { get; set; }
+        [JsonProperty("sunset")] public long Sunset { get; set; }
 
-        [JsonProperty("moonrise")] public int Moonrise { get; set; }
+        [JsonProperty("moonrise")] public long Moonrise { get; set; }
 
-        [JsonProperty("moonset")] public int Moonset { get; set; }
+        [JsonProperty("moonset")] public long Moonset { get; set; }
 
         [JsonProperty("moon_phase")] public double MoonPhase { get; set; }
 
