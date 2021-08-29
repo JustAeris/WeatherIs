@@ -120,9 +120,11 @@ namespace WeatherIs.OpenWeatherMapApi.Tests
             var city = (CityListRetriever.CityList ?? throw new InvalidOperationException()).First(c => c.Name == "Paris" && c.Country == "FR");
 
             var forecast =
-                await _oneCallApiClient.GetByCoordsAsync(city.Coords.Latitude, city.Coords.Longitude, UnitsType.Metric);
+                await _oneCallApiClient.GetByCoordsAsync(city.Coords.Latitude, city.Coords.Longitude, Exclude.Current | Exclude.Minutely, UnitsType.Metric);
 
             Assert.IsNotNull(forecast);
+            Assert.IsNull(forecast.Current);
+            Assert.IsNull(forecast.Minutely);
         }
     }
 }
