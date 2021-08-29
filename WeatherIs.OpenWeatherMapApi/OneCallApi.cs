@@ -32,13 +32,15 @@ namespace WeatherIs.OpenWeatherMapApi
             Client.Dispose();
         }
 
-        public async Task<OneCallApiResponse> GetByCoordsAsync(double lat, double lon,
+        public async Task<OneCallApiResponse> GetByCoordsAsync(double lat, double lon, Exclude exclude = Exclude.None,
             UnitsType unitsType = UnitsType.Standard, CultureInfo culture = null)
         {
             culture ??= CultureInfo.CurrentCulture;
 
+            var excludeOptions = exclude.ToString().ToLower().Replace(" ", "");
+
             var parameters =
-                $"?lat={lat}&lon={lon}&appid={ApiKey}&units={Enum.GetName(unitsType)?.ToLower()}&lang={culture.TwoLetterISOLanguageName}";
+                $"?lat={lat}&lon={lon}&appid={ApiKey}&units={Enum.GetName(unitsType)?.ToLower()}&lang={culture.TwoLetterISOLanguageName}{(exclude == Exclude.None ? null : $"&exclude={excludeOptions}")}";
 
             var response = await Client.GetAsync(parameters);
 
