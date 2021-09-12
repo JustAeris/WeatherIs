@@ -14,7 +14,7 @@ namespace WeatherIs.OpenWeatherMapApi
 
         public static IList<CityListItem> CityList { get; private set; }
 
-        public static async Task RetrieveCityList()
+        public static async Task<IList<CityListItem>> RetrieveCityList()
         {
             using var client = new WebClient();
 
@@ -25,6 +25,8 @@ namespace WeatherIs.OpenWeatherMapApi
             var json = await File.ReadAllTextAsync(decompressedFile);
 
             CityList = JsonConvert.DeserializeObject<IList<CityListItem>>(json);
+
+            return CityList;
         }
 
         private static string DecompressGZip(FileInfo fileToDecompress)
