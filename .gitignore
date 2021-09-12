@@ -233,3 +233,10 @@ _Pvt_Extensions
 
 # IntelliJ Configuration folder
 .idea/
+
+# Visual Studio Code Configuration folder
+.vscode/
+
+# Custom ignore rules that are specific to this application
+city.list.min.*
+config.json
