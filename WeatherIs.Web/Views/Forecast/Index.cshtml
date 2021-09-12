@@ -6,3 +6,38 @@
 }
 
 <h2>Forecast</h2>
+
+@*very borken stuff*@
+<div style="height: 100vh; width: 100%; padding: 10px">
+    <h3>Hourly forecast</h3>
+    <div class="d-flex align-items-start">
+        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="v-pills-@Model.ForecastData.Current.Dt-tab" data-bs-toggle="pill" data-bs-target="#v-pills@(Model.ForecastData.Current.Dt)" type="button" role="tab" aria-controls="v-pills-@(Model.ForecastData.Current.Dt)" aria-selected="true">
+                    Now
+                    <img alt="Forecast Icon" src="assets/svg/@(Model.ForecastData.Current.Weather.First().Icon).svg" width="20%" height="20%"/>
+                </button>
+                </li>
+            @foreach (var hourly in Model.ForecastData.Hourly.Take(25))
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="v-pills-@hourly.Dt-tab" data-bs-toggle="pill" data-bs-target="#v-pills@(hourly.Dt)" type="button" role="tab" aria-controls="v-pills-@(hourly.Dt)" aria-selected="true">
+                        @(new DateTime(hourly.Dt).ToString(@"hh\:mm"))
+                        <img alt="Forecast Icon" src="assets/svg/@(hourly.Weather.First().Icon).svg" width="20%" height="20%"/>
+                    </button>
+                </li>
+            }
+        </div>
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">@Model.ForecastData.Current.Temp</div>
+            @foreach (var hourly in Model.ForecastData.Hourly)
+            {
+                <div class="tab-pane fade" id="v-pills-@(hourly.Dt)" role="tabpanel" aria-labelledby="v-pills-@(hourly.Dt)-tab">
+                    @hourly.Temp
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="lib/bootstrap/dist/js/bootstrap.js"></script>
