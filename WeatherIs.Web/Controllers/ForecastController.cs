@@ -5,24 +5,28 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using WeatherIs.IpApi;
 using WeatherIs.OpenWeatherMapApi;
 using WeatherIs.OpenWeatherMapApi.Models;
 using WeatherIs.Web.Configuration;
 using WeatherIs.Web.Models;
 using WeatherIs.Web.Models.Cookies;
+using static WeatherIs.Web.Utils.Knn;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace WeatherIs.Web.Controllers
 {
     public class ForecastController : Controller
     {
         private readonly ILogger<ForecastController> _logger;
+        private readonly IMemoryCache _cache;
 
-        public ForecastController(ILogger<ForecastController> logger)
+        public ForecastController(ILogger<ForecastController> logger, IMemoryCache cache)
         {
             _logger = logger;
+            _cache = cache;
         }
 
         // GET
@@ -30,7 +34,7 @@ namespace WeatherIs.Web.Controllers
         {
             if (!Request.Cookies.TryParseCookie<PreferredUnits>("PreferredUnits", out var unitsSettings))
             {
-                _logger.LogWarning("Could not get preferred units cookie for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
+                _logger.LogInformation("Could not get preferred units cookie for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
             }
 
             if (!Request.Cookies.TryParseCookie<CityListItem>("PreferredLocation", out var preferredLocation))
@@ -47,22 +51,27 @@ namespace WeatherIs.Web.Controllers
                         ForecastData = new OneCallApiResponse()
                     });
 
-                if (Request.Cookies.TryParseCookie<ForecastCache>("WeatherCache", out var ipCache))
-                {
-                    if (ipCache.ExpiryDate > DateTime.UtcNow && ip.ToString() == ipCache.IpAddress && !forceRefresh)
-                    {
-                        _logger.LogInformation("Returned cache for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
-                        return View("Index",
-                            new ForecastViewModel
-                            {
-                                ForecastData = ipCache.ForecastData, MetricUnits = ipCache.MetricUnits,
-                                IsUsingAutoGeolocation = true
-                            });
-                    }
-                }
+                var cityList = CityListRetriever.CityList ?? await CityListRetriever.RetrieveCityList();
 
                 using var ipApiEndpoint = new IpApiEndpoint();
                 var ipGeolocation = await ipApiEndpoint.GetIpGeolocationAsync(ip.ToString());
+
+                var points = cityList.Select(c => new PointF(c.Coords.Longitude, c.Coords.Latitude)).ToList();
+                var kdTree = new KDTree();
+                kdTree.BuildKDTree(points);
+                var point = kdTree.NearestPoint(new PointF(ipGeolocation.Longitude, ipGeolocation.Latitude));
+                var closest = cityList.First(c => c.Coords.Longitude == point.X && c.Coords.Latitude == point.Y);
+
+                if (!forceRefresh && _cache.TryParseCache<ForecastCache>(CacheKeys.Forecast + closest.Id, out var ipCache))
+                {
+                    _logger.LogInformation("Returned cache for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
+                    return View("Index",
+                        new ForecastViewModel
+                        {
+                            ForecastData = ipCache.ForecastData, MetricUnits = ipCache.MetricUnits,
+                            IsUsingAutoGeolocation = true
+                        });
+                }
 
                 UnitsType unitTypeByIp;
                 if (unitsSettings == null || unitsSettings.Automatic)
@@ -75,7 +84,7 @@ namespace WeatherIs.Web.Controllers
 
                 using var forecastClientByIp = new OneCallApi(ConfigContext.Config.OpenWeatherMapApiKey);
                 var forecastByIp = await forecastClientByIp.GetByCoordsAsync(ipGeolocation.Latitude, ipGeolocation.Longitude,
-                    unitTypeByIp);
+                    Exclude.Minutely, unitTypeByIp);
 
                 _logger.LogInformation("Successfully got the weather for IP '{IP}'!", ip.ToString());
 
@@ -87,25 +96,20 @@ namespace WeatherIs.Web.Controllers
                     MetricUnits = unitTypeByIp == UnitsType.Metric
                 };
 
-                if (Request.Cookies.ContainsKey("ForecastCache"))
-                    Response.Cookies.Delete("ForecastCache");
-                Response.Cookies.Append("ForecastCache", JsonConvert.SerializeObject(newIpCache));
+                _cache.Set(CacheKeys.Forecast + closest.Id, newIpCache, (DateTime.UtcNow + TimeSpan.FromDays(1)).Date);
 
                 return View("Index", new ForecastViewModel { ForecastData = forecastByIp, IsUsingAutoGeolocation = true, MetricUnits = unitTypeByIp == UnitsType.Metric });
             }
 
-            if (Request.Cookies.TryParseCookie<ForecastCache>("ForecastCache", out var cache))
+            if (!forceRefresh && _cache.TryParseCache<ForecastCache>(CacheKeys.Forecast + preferredLocation.Id, out var cache))
             {
-                if (cache.ExpiryDate > DateTime.UtcNow && Math.Abs(cache.CityId - preferredLocation.Id) < 0.1 && !forceRefresh)
-                {
-                    _logger.LogInformation("Returned cache for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
-                    return View("Index",
-                        new ForecastViewModel
-                        {
-                            ForecastData = cache.ForecastData, MetricUnits = cache.MetricUnits,
-                            IsUsingAutoGeolocation = false
-                        });
-                }
+                _logger.LogInformation("Returned cache for IP '{IP}'", Request.HttpContext.Connection.RemoteIpAddress);
+                return View("Index",
+                    new ForecastViewModel
+                    {
+                        ForecastData = cache.ForecastData, MetricUnits = cache.MetricUnits,
+                        IsUsingAutoGeolocation = false
+                    });
             }
 
             UnitsType unitType;
@@ -134,7 +138,8 @@ namespace WeatherIs.Web.Controllers
             }
 
             using var forecastClient = new OneCallApi(ConfigContext.Config.OpenWeatherMapApiKey);
-            var forecast = await forecastClient.GetByCoordsAsync(city.Coords.Latitude, city.Coords.Longitude, unitType);
+            var forecast = await forecastClient.GetByCoordsAsync(city.Coords.Latitude, city.Coords.Longitude,
+                Exclude.Minutely, unitType);
 
             _logger.LogInformation("Successfully got the weather for city ID '{CityID}'!", preferredLocation.Id);
 
@@ -146,9 +151,7 @@ namespace WeatherIs.Web.Controllers
                 MetricUnits = unitType == UnitsType.Metric
             };
 
-            if (Request.Cookies.ContainsKey("ForecastCache"))
-                Response.Cookies.Delete("ForecastCache");
-            Response.Cookies.Append("ForecastCache", JsonConvert.SerializeObject(newCache));
+            _cache.Set(CacheKeys.Forecast + preferredLocation.Id, newCache, (DateTime.UtcNow + TimeSpan.FromDays(1)).Date);
 
             return View("Index", new ForecastViewModel { ForecastData = forecast, IsUsingAutoGeolocation = false, MetricUnits = unitType == UnitsType.Metric });
         }
